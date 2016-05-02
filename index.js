@@ -6,9 +6,8 @@ app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(req, res) {
 
-  var ip = req.connection.remoteAddress;
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   ip = ip.split(":");
-  //var ip = req.headers['x-forwarded-for'];
   var sw = req.headers['user-agent'].match('\(([^\)]+)\)');
   sw = sw[1].split('(');
   sw = sw[1].replace(/;/g, ',');
