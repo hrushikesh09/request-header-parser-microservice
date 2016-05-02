@@ -7,13 +7,15 @@ app.set('port', (process.env.PORT || 5000));
 app.get('/', function(req, res) {
 
   var ip = req.connection.remoteAddress;
-  var software = req.headers['user-agent'];
-  var language = req.headers['accept-language'];
+  var sw = req.headers['user-agent'].match('\(([^\)]+)\)');
+  sw = sw[1].split('(');
+  sw = sw[1].replace(/;/g, ',');
+  var language = req.headers['accept-language'].split(',');
 
   var json = {
     ipaddress: ip,
-    language: language,
-    software: software
+    language: language[0],
+    software: sw
   }
 
   res.send(json);
